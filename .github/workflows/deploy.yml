@@ -1,8 +1,8 @@
-name: Deploy Node js 
+name: Deploy Node js
 on:
   push:
     branches:
-      -main
+      - main
 
 jobs:
   deploy:
@@ -10,16 +10,15 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v4
-      
+
       - name: Deploy via ssh
         uses: appleboy/ssh-action@v1.0.3
-        with: 
-          host: ${{secrets.SSH_HOST}}
-          username: root 
-          key: ${{secrets.SSH_KEY}}
-
-        script: |
-          cd /home/ec2-user/github-actions
-          git pull
-          docker compose up -d --build
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ec2-user
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/ec2-user/github-actions
+            git pull
+            docker compose up -d --build
 
